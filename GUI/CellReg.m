@@ -63,8 +63,8 @@ if verLessThan('matlab','8.4')
     % MATLAB R2014a and earlier
     % if there are problems with GUI and figures change properties back to default
 else
-    % MATLAB R2014b and later 
-    reset(0); 
+    % MATLAB R2014b and later
+    reset(0);
 end
 
 % Begin initialization code - DO NOT EDIT
@@ -260,7 +260,7 @@ else
     figures_visibility='Off';
 end
 
-    
+
 % loading the spatial footprints:
 disp('Stage 1 - Loading sessions')
 
@@ -277,7 +277,7 @@ plot_all_sessions_projections(footprints_projections,figures_directory,figures_v
 % saving the loaded data into the data struct for the GUI
 
 if get(handles.write2file_on,'Value')
-    data_struct.temp_dir = [figures_directory, filesep, 'temp']; 
+    data_struct.temp_dir = [figures_directory, filesep, 'temp'];
     if ~exist(data_struct.temp_dir)
         mkdir(data_struct.temp_dir);
     end
@@ -327,14 +327,14 @@ if isfield(data_struct,'spatial_footprints') % some sessions were already loaded
     
     % loading the session:
     msgbox_timed('Please choose the file with the spatial footprints for this session: ',1)
-
+    
     [file_name,file_path]=uigetfile(strcat(results_directory,filesep,'*.mat'),...
         'Choose the file with the spatial footprints for this session: ','MultiSelect','off');
     number_of_sessions=number_of_sessions+1;
     file_names{number_of_sessions}=[file_path file_name];
     sessions_list{number_of_sessions}=['Session ' num2str(number_of_sessions) ' - ' file_path file_name];
     disp('Stage 1 - Loading sessions')
-   
+    
     if get(handles.write2file_on,'Value')
         added_spatial_footprints = file_names{number_of_sessions};
     else
@@ -375,7 +375,7 @@ else % first loaded session
     if exist(figures_directory,'dir')~=7
         mkdir(figures_directory);
     end
-        
+    
     % loading the spatial footprints:
     disp('Stage 1 - Loading sessions')
     if get(handles.write2file_on,'Value');
@@ -395,7 +395,7 @@ end
 
 % saving the loaded data into the data struct for the GUI
 if get(handles.write2file_on,'Value')
-    data_struct.temp_dir = [figures_directory, filesep, 'temp']; 
+    data_struct.temp_dir = [figures_directory, filesep, 'temp'];
     if ~exist(data_struct.temp_dir)
         mkdir(data_struct.temp_dir);
     end
@@ -485,7 +485,7 @@ if isfield(data_struct,'spatial_footprints')
     handles.data_struct=data_struct;
     guidata(hObject, handles)
     msgbox_timed('Finished removing session',1)
-
+    
 end
 
 % --------------------------------------------------------------------
@@ -511,7 +511,7 @@ elseif ~isfield(aligned_data_struct,'aligned_data_struct')
 else
     % loading the aligned data:
     msgbox_timed('Please select the folder in which the results will be saved',3)
-
+    
     results_directory=uigetdir(file_path); % the directory which the final results will be saved
     data_struct=aligned_data_struct.aligned_data_struct;
     data_struct.results_directory=results_directory;
@@ -520,7 +520,7 @@ else
     if exist(figures_directory,'dir')~=7
         mkdir(figures_directory);
     end
-   
+    
     % plotting the aligned data:
     footprints_projections_corrected=data_struct.footprints_projections_corrected;
     overlapping_FOV=data_struct.overlapping_FOV;
@@ -540,11 +540,11 @@ else
     plot_RGB_overlay(footprints_projections_corrected,RGB_indexes,overlapping_FOV)
     figure('units','normalized','outerposition',[0.325 0.25 0.35 0.5],'Visible',figures_visibility)
     plot_RGB_overlay(footprints_projections_corrected,RGB_indexes,overlapping_FOV)
-
+    
     % loading configurations to GUI:
     set(handles.microns_per_pixel,'string',num2str(round(100*data_struct.microns_per_pixel)/100));
     set(handles.reference_session_index,'string',num2str(data_struct.reference_session_index))
-    set(handles.list_of_sessions,'string',data_struct.sessions_list)    
+    set(handles.list_of_sessions,'string',data_struct.sessions_list)
     if strcmp(data_struct.alignment_type,'Translations')
         set(handles.translations,'Value',1);
     elseif strcmp(data_struct.alignment_type,'Translations and Rotations')
@@ -584,7 +584,7 @@ elseif ~isfield(modeled_data_struct,'modeled_data_struct')
 else
     % loading the aligned data:
     msgbox_timed('Please select the folder in which the results will be saved',3)
-
+    
     results_directory=uigetdir(file_path); % the directory which the final results will be saved
     data_struct=modeled_data_struct.modeled_data_struct;
     data_struct.results_directory=results_directory;
@@ -593,7 +593,7 @@ else
     if exist(figures_directory,'dir')~=7
         mkdir(figures_directory);
     end
-   
+    
     % plotting the data:
     footprints_projections_corrected=data_struct.footprints_projections_corrected;
     overlapping_FOV=data_struct.overlapping_FOV;
@@ -613,12 +613,12 @@ else
     plot_RGB_overlay(footprints_projections_corrected,RGB_indexes,overlapping_FOV)
     figure('units','normalized','outerposition',[0.325 0.25 0.35 0.5],'Visible',figures_visibility)
     plot_RGB_overlay(footprints_projections_corrected,RGB_indexes,overlapping_FOV)
-
+    
     % loading configurations to GUI:
     set(handles.microns_per_pixel,'string',num2str(round(100*data_struct.microns_per_pixel)/100));
     set(handles.reference_session_index,'string',num2str(data_struct.reference_session_index))
     set(handles.list_of_sessions,'string',data_struct.sessions_list)
-    set(handles.model_maximal_distance,'string',num2str(data_struct.maximal_distance));   
+    set(handles.model_maximal_distance,'string',num2str(data_struct.maximal_distance));
     if strcmp(data_struct.alignment_type,'Translations')
         set(handles.translations,'Value',1);
     elseif strcmp(data_struct.alignment_type,'Translations and Rotations')
@@ -789,6 +789,9 @@ aligned_data_struct.overlapping_FOV=overlapping_FOV;
 aligned_data_struct.maximal_cross_correlation=maximal_cross_correlation;
 aligned_data_struct.alignment_translations=alignment_translations;
 aligned_data_struct.adjustment_zero_padding=adjustment_zero_padding;
+if strcmp(alignment_type,'Non-rigid')
+    aligned_data_struct.displacement_fields=displacement_fields;
+end
 
 handles.data_struct=data_struct;
 disp('Saving the aligned data structure')
@@ -1060,12 +1063,12 @@ else
 end
 
 % Computing the initial registration according to a simple threshold:
-if get(handles.spatial_correlations,'Value')==1 % if spatial correlations are used    
-        initial_registration_type='Spatial correlation';
-        initial_threshold=str2num(get(handles.correlation_threshold,'string'));
-        [cell_to_index_map,registered_cells_spatial_correlations,non_registered_cells_spatial_correlations]=...
-            initial_registration_spatial_correlations(normalized_maximal_distance,initial_threshold,spatial_footprints_corrected,centroid_locations_corrected);
-        plot_initial_registration(cell_to_index_map,number_of_bins,spatial_footprints_corrected,initial_registration_type,figures_directory,figures_visibility,registered_cells_spatial_correlations,non_registered_cells_spatial_correlations)    
+if get(handles.spatial_correlations,'Value')==1 % if spatial correlations are used
+    initial_registration_type='Spatial correlation';
+    initial_threshold=str2num(get(handles.correlation_threshold,'string'));
+    [cell_to_index_map,registered_cells_spatial_correlations,non_registered_cells_spatial_correlations]=...
+        initial_registration_spatial_correlations(normalized_maximal_distance,initial_threshold,spatial_footprints_corrected,centroid_locations_corrected);
+    plot_initial_registration(cell_to_index_map,number_of_bins,spatial_footprints_corrected,initial_registration_type,figures_directory,figures_visibility,registered_cells_spatial_correlations,non_registered_cells_spatial_correlations)
 else
     initial_registration_type='Centroid distances';
     initial_threshold=str2num(get(handles.distance_threshold,'string'));
@@ -1107,7 +1110,7 @@ if ~isfield(data_struct,'cell_to_index_map')
     error('Final registration cannot be performed before initial registration')
 end
 
-if  get(handles.spatial_correlations_2,'Value')==1  
+if  get(handles.spatial_correlations_2,'Value')==1
     if isfield(data_struct,'all_to_all_p_same_spatial_correlation_model')
         all_to_all_p_same_spatial_correlation_model=data_struct.all_to_all_p_same_spatial_correlation_model;
         all_to_all_indexes=data_struct.all_to_all_indexes;

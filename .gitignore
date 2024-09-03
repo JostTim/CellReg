@@ -4,3 +4,4 @@
 *.fig
 /SampleData/Results/*
 /SampleData/Figures/*
+/SampleData/TestResults/*
